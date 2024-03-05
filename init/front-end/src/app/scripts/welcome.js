@@ -4,7 +4,7 @@
   // TODO #export-functions: export function WelcomeComponent
   // TODO #class: use the ES6 class keyword
   /* class WelcomeComponent constructor  */
-  function WelcomeComponent() {
+  export function WelcomeComponent() {
     // TODO #extends: call super(template)
     // TODO #import-html: assign template to this.template
   }
