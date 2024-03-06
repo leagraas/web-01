@@ -1,6 +1,7 @@
-// Problème de import export
-
 import { Router } from "./app/scripts/router";
+import { WelcomeComponent } from "./app/scripts/welcome";
+import { GameComponent } from "./app/scripts/game";
+import { ScoreComponent } from "./app/scripts/score";
 // TODO #import-css: use ES side-effect imports to import styles/style.css
 
 const outlet = document.querySelector("#content-outlet");
