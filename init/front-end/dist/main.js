@@ -151,9 +151,9 @@ function WelcomeComponent() {
   // TODO #import-html: assign template to this.template
 }
 
-// TODO #export-functions: remove this line
 // put component in global scope, to be runnable right from the HTML.
 // window.WelcomeComponent = WelcomeComponent;
+
 // TODO #class: turn function into a method of WelcomeComponent
 /* method WelcomeComponent.init */
 WelcomeComponent.prototype.init = function init() {
@@ -237,7 +237,6 @@ function GameComponent() {
   this._matchedPairs = 0;
 }
 
-// TODO #export-functions: remove this line
 // put component in global scope, to be runnable right from the HTML.
 //window.GameComponent = GameComponent;
 
@@ -498,7 +497,6 @@ function ScoreComponent() {
   this.time = parseInt(params.time);
 }
 
-// TODO #export-functions: remove this line
 // put component in global scope, to be runnable right from the HTML.
 // window.ScoreComponent = ScoreComponent;
 
