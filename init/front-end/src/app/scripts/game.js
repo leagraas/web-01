@@ -36,80 +36,56 @@ export class GameComponent extends Component {
   //window.GameComponent = GameComponent;
 
   /* method GameComponent.init */
-  init() {
+  async init() {
     // fetch the cards configuration from the server
-    this.fetchConfig(
-      (config) => {
-        this._config = config;
-        this._boardElement = document.querySelector(".cards");
+    this._config = await this.fetchConfig();
+    this._boardElement = document.querySelector(".cards");
 
-        // create cards out of the config
-        this._cards = [];
-        // TODO #functional-programming: use Array.map() instead.
-        this._cards = this._config.ids.map(id => new CardComponent(id))
-        
-        //for (let i in this._config.ids) {
-        //  this._cards[i] = new CardComponent(this._config.ids[i]);
-        //}
 
-        // TODO #functional-programming: use Array.forEach() instead.
-        //for (let i in this._cards) {
-        //  let card = this._cards[i];
-        this._cards.forEach(card => {
-          /* method GameComponent._appendCard */
-          this._boardElement.appendChild(card.getElement());
+    // create cards out of the config
+    this._cards = [];
+    // TODO #functional-programming: use Array.map() instead.
+    this._cards = this._config.ids.map(id => new CardComponent(id));
 
-          card.getElement().addEventListener(
-            "click",
-            () => {
-              this._flipCard(card);
-            }
-          );
-        });
-        this.start();
-      }
-    );
-  };
+    //for (let i in this._config.ids) {
+    //  this._cards[i] = new CardComponent(this._config.ids[i]);
+    //}
+
+    // TODO #functional-programming: use Array.forEach() instead.
+    //for (let i in this._cards) {
+    //  let card = this._cards[i];
+    this._cards.forEach(card => {
+      /* method GameComponent._appendCard */
+      this._boardElement.appendChild(card.getElement());
+
+      card.getElement().addEventListener(
+        "click",
+        () => {
+          this._flipCard(card);
+        }
+      );
+    });
+    this.start();
+  }
 
   /* method GameComponent.start */
   start() {
     this._startTime = Date.now();
     let seconds = 0;
     document.querySelector("nav .navbar-title").textContent =
-        `Player : ${this._name} . Elapsed time : ${seconds++}`;
+      `Player : ${this._name} . Elapsed time : ${seconds++}`;
 
     this._timer = setInterval(
-        () => {
-          document.querySelector("nav .navbar-title").textContent =
-            `Player : ${this._name} . Elapsed time : ${seconds++}`;
-        },1000); 
+      () => {
+        document.querySelector("nav .navbar-title").textContent =
+          `Player : ${this._name} . Elapsed time : ${seconds++}`;
+      }, 1000);
   };
 
   /* method GameComponent.fetchConfig */
-  fetchConfig(cb){
-    let xhr =
-        typeof XMLHttpRequest != "undefined"
-          ? new XMLHttpRequest()
-          : new ActiveXObject("Microsoft.XMLHTTP");
-
-    xhr.open("get", `${environment.api.host}/board?size=${this._size}`,true);
-
-    xhr.onreadystatechange = () => {
-      let status;
-      let data;
-      // https://xhr.spec.whatwg.org/#dom-xmlhttprequest-readystate
-      if (xhr.readyState == 4) {
-        // `DONE`
-        status = xhr.status;
-        if (status == 200) {
-          data = JSON.parse(xhr.responseText);
-          cb(data);
-        } else {
-          throw new Error(status);
-        }
-      }
-    };
-    xhr.send();
+  async fetchConfig() {
+    return fetch(`${environment.api.host}/board?size=${this._size}`).then((r) => r.json()
+    );
   };
 
   /* method GameComponent.goToScore */
@@ -122,7 +98,7 @@ export class GameComponent extends Component {
     setTimeout(() => {
       let scorePage = "./#score";
       window.location =
-      `${scorePage}?name=${this._name}&size=${this._size}&time=${timeElapsedInSeconds}`;
+        `${scorePage}?name=${this._name}&size=${this._size}&time=${timeElapsedInSeconds}`;
     }, 750);
   };
 
@@ -172,7 +148,7 @@ export class GameComponent extends Component {
 
             // reset flipped card for the next turn.
             this._flippedCard = null;
-          },500);
+          }, 500);
       }
     }
   }
@@ -230,24 +206,24 @@ class CardComponent extends Component {
     this._imageElt.querySelector("img.back-face").src = CARDS_IMAGE[0];
   }
 
-/* method CardComponent.getElement */
+  /* method CardComponent.getElement */
   getElement() {
     return this._elt;
   };
 
-/* method CardComponent.flip */
+  /* method CardComponent.flip */
   flip() {
     this._imageElt.classList.toggle("flip");
     this._flipped = !this._flipped;
   };
 
-/* method CardComponent.equals */
+  /* method CardComponent.equals */
   equals(card) {
     return card._id === this._id;
   };
 
   /* CardComponent.get flipped() */
-  get flipped(){
+  get flipped() {
     return this._flipped;
   }
 }
