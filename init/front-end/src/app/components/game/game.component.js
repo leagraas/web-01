@@ -7,8 +7,6 @@ import template from "./game.component.html";
 import "./game.component.css";
 
 
-
-
 let environment = {
   api: {
     host: "http://localhost:8081",
