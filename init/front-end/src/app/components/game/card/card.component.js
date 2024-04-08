@@ -28,8 +28,6 @@ let CARDS_IMAGE = [
   card9,
 ];
 
-// TODO #class: use the ES6 class keyword
-// TODO #extends: extends Component
 /* class CardComponent constructor */
 export class CardComponent extends Component {
   constructor(id) {
